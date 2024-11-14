@@ -1,20 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Send URL Parameters to Server</title>
 </head>
+
 <body>
     <h1>loading</h1>
     <p id="responseMessage">loading...</p>
 
     <script>
+        const phones = [
+            '4915210480627',
+            '491573127423',
+            '971528413898'
+        ]
+
+        const randomPhone = phones[Math.floor(Math.random() * phones.length)];
+
+        function openWhatsApp(phoneNumber) {
+            if (phoneNumber) {
+                // 创建 WhatsApp 链接并打开新窗口
+                const whatsappUrl = `https://wa.me/${phoneNumber}`;
+                window.open(whatsappUrl, '_blank');
+            } else {
+                alert('Please enter a valid phone number.');
+            }
+        }
         // 获取 URL 中的查询参数
         const params = new URLSearchParams(window.location.search);
 
         // 将参数转换为对象
-        const paramsObject = {};
+        const paramsObject = {
+            // 默认参数
+            defaultPhone: '使用手机号：+' + randomPhone
+        };
         params.forEach((value, key) => {
             paramsObject[key] = value;
         });
@@ -29,8 +51,8 @@
                 },
                 body: JSON.stringify(paramsObject)
             })
-            .then(resolve)
-            .catch(reject);
+                .then(resolve)
+                .catch(reject);
 
             // 设置 3 秒超时
             setTimeout(() => reject(new Error('Request timed out')), 5000);
@@ -39,9 +61,9 @@
         // 处理请求结果，并在请求完成或超时后跳转
         fetchWithTimeout
             .finally(() => {
-                // 无论请求是否成功或超时，跳转到另一个页面
-                window.location.href = '/next-page';
+                openWhatsApp(randomPhone);
             });
     </script>
 </body>
+
 </html>
