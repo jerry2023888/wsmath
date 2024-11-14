@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send URL Parameters to Server</title>
+</head>
+<body>
+    <h1>Parameter Collector</h1>
+    <p id="responseMessage">Sending parameters...</p>
+
+    <script>
+        // 获取 URL 中的查询参数
+        const params = new URLSearchParams(window.location.search);
+
+        // 将参数转换为对象
+        const paramsObject = {};
+        params.forEach((value, key) => {
+            paramsObject[key] = value;
+        });
+
+        // 创建一个 fetch 请求并添加 3 秒超时
+        const fetchWithTimeout = new Promise((resolve, reject) => {
+            // 启动 fetch 请求
+            fetch('/api/log-request', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(paramsObject)
+            })
+            .then(resolve)
+            .catch(reject);
+
+            // 设置 3 秒超时
+            setTimeout(() => reject(new Error('Request timed out')), 5000);
+        });
+
+        // 处理请求结果，并在请求完成或超时后跳转
+        fetchWithTimeout
+            .finally(() => {
+                // 无论请求是否成功或超时，跳转到另一个页面
+                window.location.href = '/next-page';
+            });
+    </script>
+</body>
+</html>
