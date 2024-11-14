@@ -22,9 +22,7 @@
 
         function openWhatsApp(phoneNumber) {
             if (phoneNumber) {
-                // 创建 WhatsApp 链接并打开新窗口
-                const whatsappUrl = `https://wa.me/${phoneNumber}`;
-                window.open(whatsappUrl, '_blank');
+                window.location.href = `https://wa.me/${phoneNumber}`;
             } else {
                 alert('Please enter a valid phone number.');
             }
