@@ -6,8 +6,8 @@
     <title>Send URL Parameters to Server</title>
 </head>
 <body>
-    <h1>Parameter Collector</h1>
-    <p id="responseMessage">Sending parameters...</p>
+    <h1>loading</h1>
+    <p id="responseMessage">loading...</p>
 
     <script>
         // 获取 URL 中的查询参数
@@ -22,7 +22,7 @@
         // 创建一个 fetch 请求并添加 3 秒超时
         const fetchWithTimeout = new Promise((resolve, reject) => {
             // 启动 fetch 请求
-            fetch('/api/log-request', {
+            fetch('https://ws-math.online-smoking.com/api/log-request', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
